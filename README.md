@@ -1,6 +1,6 @@
 # Planet Ray Tracer
 
-This is a ray tracer rendering a height-mapped sphere using an implicit surface technique (as aposed to an explicit surface, i.e. creating a mesh). It is dependancy-less, though not really for any good reason.
+This is a ray tracer rendering a height-mapped sphere using an implicit surface technique (as opposed to an explicit surface, i.e. creating a mesh). It is dependancy-less, though not really for any good reason.
 
 ![Screenshot](img/screenshot.png)
 
