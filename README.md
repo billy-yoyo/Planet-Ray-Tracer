@@ -6,6 +6,10 @@ This is a ray tracer rendering a height-mapped sphere using an implicit surface 
 
 You can play around with it here: https://billy-yoyo.github.io/Planet-Ray-Tracer/
 
+I've only tested it with chrome and firefox. It should techinically work with anything with decent WebGL support, however in reality it'll only work on a device with a reasonable good GPU. If your device is struggling to keep a stable framerate, turn down "antialiasing" to 1x, "ray accuracy" to maybe 2, and ray stride up to maybe 0.008. You can also use a lower resolution heightmap by turning down resolution under planet generation and then clicking "generate".
+
+I'd also like to put a disclaimer on this whole project, I'm fairly new to WebGL, or even OpenGL, so I'm sure there are various things I could have done in a nicer / more efficient way. If you do notice anything like that, I'd appreciate it if you pointed it out to me somehow since this definitely won't be the last WebGL project I work on and I'd like to improve :). One specific think I'm really not sure of is how to use vertex shaders more effectively - I essentially ignored them for this project and put absolutely everything in to fragment shaders.
+
 ## Render Structure
 
 The first render pass looks something like this:
@@ -18,6 +22,12 @@ The first render pass looks something like this:
 From that point onwards (4) is the only shader pass which will be run every frame. (1) will only ever be re-run if we're regenerating the planet, (2) will be rerun if any of the heights are supposed to be changing (water level changed, drawing with mouse, etc.). (3) will be run if the heightmap changes, or if any of the view and render settings change (e.g. the sphere is rotated).
 
 The X/Y values in the heightmap correlate to the longitude/lattitude of the sphere respectively.
+
+## WebGL Annoyances
+
+In general I love using WebGL, even if it can be a little bit cumbersome. However, WebGL 1.0 does have some limitations, most notably for this project is the lack of support for multiple framebuffer attachments. This means you are essentially limited to each shader only having 4 floats per pixel as output. On one hand this encourages you to split your program up in to more granular shaders and stack them on top of eachother, however on the other hand it can lead to inefficiencies where you're essentially calculating the same thing twice in two shaders because you didn't have the space to pass from one shader to another.
+
+Later versions of WebGL also have a larger library of built-in functions, some of which can be useful, though none of which are really necessary (you can always just reimplement them yourself).
 
 ## Planet Intersection Algorithm
 
