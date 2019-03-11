@@ -10,10 +10,23 @@ body {
 .fps {
     position: absolute;
     z-index: 1;
+    bottom: 20px;
+    left: 5px;
+    font-size: 10px;
+    color: #bbba;
+}
+
+.info {
+    position: absolute;
+    z-index: 1;
     top: 5px;
     left: 5px;
-    font-size: 12px;
-    color: #bbba;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+
+    background: url('info.svg') no-repeat;
+    background-position: center;
 }
 
 .canvas {
@@ -97,7 +110,7 @@ body {
 }
 
 .submenu-slider-title {
-    margin-left: 38px;
+    margin-left: 28px;
     color: #bbba;
     font-size: 14px;
     margin-bottom: 2px;
@@ -105,7 +118,7 @@ body {
 
 .submenu-slider {
     -webkit-appearance: none;
-    margin-left: 35px;
+    margin-left: 25px;
     width: 180px;
     height: 8px;
     border-radius: 3px;  
@@ -167,4 +180,59 @@ body {
     font-size: 10px;
     left: 5px;
     bottom: 5px;
+}
+
+.info-box {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -225px;
+    margin-top: -155px;
+    width: 450px;
+    height: 310px;
+
+    background: #000e;
+    border-width: 1px;
+    border-color: #555e;
+    border-style: solid;
+
+    color: #bbbe;
+}
+
+.info-box-header {
+    width: 100%;
+    height: 35px;
+}
+
+.info-box-close {
+    float: right;
+
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+
+    background: url('exit.svg') no-repeat;
+    background-position: center;
+
+    border-width: 1px;
+    border-color: #555e;
+    border-left-style: solid;
+    border-bottom-style: solid;
+}
+
+.info-box-title {
+    float: left;
+
+    padding-top: 7px;
+    padding-left: 12px;
+    font-size: 22px;
+}
+
+.info-box-content {
+    padding: 12px;
+}
+
+.hidden {
+    display: none;
 }

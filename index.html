@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="style/main.css" />
 </head>
 <body onload="main()">
+    <div id="info" class="info"></div>
     <div id="fps" class="fps"></div>
     <canvas id="canvas" class="canvas" oncontextmenu="return false"></canvas>
     <div id="menu" class="menu">
@@ -96,6 +97,29 @@
     <button id="menu-button" class="menu-button"></button>
     <div class="credit">
         Made by <a href="https://github.com/billy-yoyo">billyoyo</a>, Source: <a href="https://github.com/billy-yoyo/Planet-Ray-Tracer">https://github.com/billy-yoyo/Planet-Ray-Tracer</a>
+    </div>
+    <div class="info-box hidden" id="info-box">
+        <div class="info-box-header">
+            <div class="info-box-title">Planet Ray Tracer</div>
+            <div class="info-box-close" id="info-box-close"></div>
+        </div>
+        <div class="info-box-content">
+            Controls:
+            <ul>
+                <li>Left click to raise terrain</li>
+                <li>Right click to lower terrain</li>
+                <li>Left+Right click to smooth terrain</li>
+                <li>Middle click to rotate planet</li>
+                <li>Scroll to zoom</li>
+            </ul>
+
+            The menu on the right hand side can be used to affect the generation and rendering of the planet. 
+            Hover over any of the names for more information about what each slider does.
+            
+            <br><br>
+
+            Source: <a href="https://github.com/billy-yoyo/Planet-Ray-Tracer">https://github.com/billy-yoyo/Planet-Ray-Tracer</a>
+        </div>
     </div>
 </body>
 </html>

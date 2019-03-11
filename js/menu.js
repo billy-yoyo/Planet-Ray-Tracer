@@ -182,6 +182,20 @@ const ShaderMenu = (function() {
         return menu;
     }
 
+    function initInfoBox() {
+        var infoButton = document.getElementById('info');
+        var infoBox = document.getElementById('info-box');
+        var infoBoxClose = document.getElementById('info-box-close');
+
+        infoButton.addEventListener('click', function(e) {
+            infoBox.classList.remove('hidden');
+        });
+
+        infoBoxClose.addEventListener('click', function(e) {
+            infoBox.classList.add('hidden');
+        });
+    }
+
     function initMenu(gl, settings, buffers, programs) {
         const menu = {
             elt: document.getElementById('menu'),
@@ -204,6 +218,8 @@ const ShaderMenu = (function() {
                 menu.button.style.right = '0px';
             }
         });
+
+        initInfoBox();
 
         return menu;
     }
