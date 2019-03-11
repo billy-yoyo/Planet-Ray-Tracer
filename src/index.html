@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Ray tracer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="shaders/vertex.glsl"></script>
+    <script src="shaders/intersection.glsl"></script>
+    <script src="shaders/colour.glsl"></script>
+    <script src="shaders/perlin.glsl"></script>
+    <script src="shaders/heightmap.glsl"></script>
+
+    <script src="js/matrix.js"></script>
+    <script src="js/program.js"></script>
+    <script src="js/programdetails.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/buffers.js"></script>
+    <script src="js/render.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/mouse.js"></script>
+    <script src="js/fps.js"></script>
+    <script src="js/main.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style/main.css" />
+</head>
+<body onload="main()">
+    <div id="fps" class="fps"></div>
+    <canvas id="canvas" class="canvas" oncontextmenu="return false"></canvas>
+    <div id="menu" class="menu">
+        <div id="perlin-menu" class="submenu perlin">
+            <div class="submenu-title">Planet Generation</div>
+
+            <div class="submenu-slider-title" title="Resolution of heightmap">Resolution: <span class="submenu-slider-value" id="perlin-resolution-value">2048</span></div>
+            <input type="range" min="1" max="13" value="11" step="1" class="submenu-slider" id="perlin-resolution">
+
+            <div class="submenu-slider-title" title="Noisey-ness of generation, higher for more noise">Persistence: <span class="submenu-slider-value" id="persistence-value">0.5</span></div>
+            <input type="range" min="0.0" max="1.0" value="0.5" step="0.01" class="submenu-slider" id="persistence">
+
+            <div class="submenu-slider-title" title="Scale of generation, higher for more fine details">Lacunarity: <span class="submenu-slider-value" id="lacunarity-value">2.0</span></div>
+            <input type="range" min="1.0", max="3.0" value="2.0" step="0.01" class="submenu-slider" id="lacunarity">
+
+            <div class="submenu-slider-title" title="Affects variance of heights">Differential: <span class="submenu-slider-value" id="differential-value">1.6</span></div>
+            <input type="range" min="0.0", max="10.0" value="1.6" step="0.01" class="submenu-slider" id="differential">
+
+            <div class="submenu-slider-title" title="Exaggeration of troughs and peaks">Exaggeration: <span class="submenu-slider-value" id="exaggeration-value">1.7</span></div>
+            <input type="range" min="0.0", max="10.0" value="1.7" step="0.01" class="submenu-slider" id="exaggeration">
+
+            <div class="submenu-slider-title" title="Blurs the generation to reduce visible artefacting">Blur Radius: <span class="submenu-slider-value" id="blur-radius-value">0.005</span></div>
+            <input type="range" min="0.0", max="0.01" value="0.005" step="0.0001" class="submenu-slider" id="blur-radius">
+
+            <div class="submenu-slider-title" title="How many layers of generation are used">Octaves: <span class="submenu-slider-value" id="octaves-value">7</span></div>
+            <input type="range" min="1", max="20" value="7" step="1" class="submenu-slider" id="octaves">
+
+            <div class="generation-buttons">
+                <button id="reset-generation" title="Reset values to defaults" class="generation-button">Defaults</button>
+                <button id="refresh-generation" title="Generate new planet" class="generation-button">Generate</button>
+            </div>
+        </div>
+        <div id="planet-menu" class="submenu planet">
+            <div class="submenu-title">Planet Properties</div>
+
+            <div class="submenu-slider-title">Waterlevel: <span class="submenu-slider-value" id="waterlevel-value">0.4</span></div>
+            <input type="range" min="0.0" max="1.0" value="0.4" step="0.01" class="submenu-slider" id="waterlevel">
+
+            <div class="submenu-slider-title" title="Minimum radius of any point on the planet">Minimum Radius: <span class="submenu-slider-value" id="min-radius-value">1.5</span></div>
+            <input type="range" min="0.0" max="10.0" value="1.5" step="0.01" class="submenu-slider" id="min-radius">
+
+            <div class="submenu-slider-title" title="Maximum radius of any point on the planet">Maximum Radius: <span class="submenu-slider-value" id="max-radius-value">2.5</span></div>
+            <input type="range" min="0.0" max="10.0" value="2.5" step="0.01" class="submenu-slider" id="max-radius">
+
+            <div class="submenu-slider-title" title="The radius of the planet's glow">Atmosphere Radius: <span class="submenu-slider-value" id="atmosphere-radius-value">2.5</span></div>
+            <input type="range" min="0.0" max="10.0" value="2.5" step="0.01" class="submenu-slider" id="atmosphere-radius">
+        </div>
+        <div id="render-menu" class="submenu render">
+            <div class="submenu-title">Render Properties</div>
+
+            <div class="submenu-slider-title" title="Amount of samples taken per pixel">Antialiasing: <span class="submenu-slider-value" id="supersampling-value">x2</span></div>
+            <input type="range" min="1" max="4" value="2" step="1" class="submenu-slider" id="supersampling">
+
+            <div class="submenu-slider-title" title="Accuracy of ray intersection with planet">Ray Accuracy: <span class="submenu-slider-value" id="hit-accuracy-value">4</span></div>
+            <input type="range" min="1" max="20" value="4" step="1" class="submenu-slider" id="hit-accuracy">
+
+            <div class="submenu-slider-title" title="Frequency of ray march checks, lower reduces chance of missed collision">Ray Stride: <span class="submenu-slider-value" id="ray-march-stride-value">4</span></div>
+            <input type="range" min="0.001" max="0.02" value="0.005" step="0.001" class="submenu-slider" id="ray-march-stride">
+
+            <div class="submenu-slider-title" title="The direction the light is pointing">Light: <span class="submenu-slider-value" id="light-value"></span></div>
+            <input type="range" min="-1.0" max="1.0" value="0.25" step="0.01" class="submenu-slider" id="light-theta">
+            <input type="range" min="-1.0" max="1.0" value="-0.5" step="0.01" class="submenu-slider" id="light-phi">
+
+            <div class="submenu-slider-title" title="Whether or not shadows should be rendered">Shadows: <span class="submenu-slider-value" id="shadows-value">disabled</span></div>
+            <input type="range" min="0" max="1" value="0" step="1" class="submenu-slider" id="shadows">
+        </div>
+    </div>
+    <button id="menu-button" class="menu-button"></button>
+    <div class="credit">
+        Made by <a href="https://github.com/billy-yoyo">billyoyo</a>, Source: <a href="https://github.com/billy-yoyo/Planet-Ray-Tracer">https://github.com/billy-yoyo/Planet-Ray-Tracer</a>
+    </div>
+</body>
+</html>
