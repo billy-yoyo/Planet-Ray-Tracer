@@ -4,6 +4,8 @@ This is a ray tracer rendering a height-mapped sphere using an implicit surface 
 
 ![Screenshot](img/screenshot.png)
 
+You can play around with it here: https://billy-yoyo.github.io/Planet-Ray-Tracer/
+
 ## Render Structure
 
 The first render pass looks something like this:
