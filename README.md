@@ -15,7 +15,7 @@ I'd also like to put a disclaimer on this whole project, I'm fairly new to WebGL
 The first render pass looks something like this:
 
 1. Render perlin noise to heightmap with RGB values set to 0, A values set to height
-2. Flip our heightmap pingpong textures, using our perlin noise heightmap as input and the currently empty one as our output. This flip will fill in the FGB values and change any heights lower than the waterlevel to the waterlevel.
+2. Flip our heightmap pingpong textures, using our perlin noise heightmap as input and the currently empty one as our output. This flip will fill in the RGB values and change any heights lower than the waterlevel to the waterlevel.
 3. Calculate the depth map, the RGB values are set to the XYZ coordinates of the intersection, or the XYZ values of the ray direction for no intersection. The A value is used as a flag for the type of intersection (negative is no intersection, 2.0 is shadowed intersection, anything else is normal intersection).
 4. Render to the canvas, use the depth map and heightmaps to calculate surface normals and colours, then use these to determine pixel colour.
 
